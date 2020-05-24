@@ -1,5 +1,9 @@
 ## 0.1.0+2
 
+- Switch RenderingContext2 to RenderingContext
+
+## 0.1.0+2
+
 - Update docs
 
 ## 0.1.0+1

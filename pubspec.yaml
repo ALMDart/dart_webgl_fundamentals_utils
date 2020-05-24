@@ -1,6 +1,6 @@
 name: webgl_fundamentals_utils
 description: Set of utilities for webgl based on Gregg Tavares webgl-utils.js for the WebGL Fundamentals tutorials.
-version: 0.1.0+2
+version: 0.1.0+3
 homepage: https://github.com/ALMaclaine/dart_webgl_fundamentals_utils
 
 environment:
