@@ -19,7 +19,7 @@ void error(String msg) {
 /// shaderSource The shader source.
 /// shaderType The type of shader.
 /// opt_errorCallback callback for errors.
-Shader loadShader(RenderingContext2 gl, String shaderSource, int shaderType,
+Shader loadShader(RenderingContext gl, String shaderSource, int shaderType,
     {void Function(String) opt_errorCallback}) {
   final errFn = (opt_errorCallback == null) ? error : opt_errorCallback;
   // Create the shader object
@@ -52,7 +52,7 @@ Shader loadShader(RenderingContext2 gl, String shaderSource, int shaderType,
 /// [opt_locations] The locations for the. A parallel array to opt_attribs letting you assign locations.
 /// opt_errorCallback callback for errors. By default it just prints an error to the console
 /// on error. If you want something else pass an callback. It's passed an error message.
-Program createProgram(RenderingContext2 gl, Iterable<Shader> shaders,
+Program createProgram(RenderingContext gl, Iterable<Shader> shaders,
     {List<String> opt_attribs,
     List<int> opt_locations,
     void Function(String) opt_errorCallback}) {
@@ -89,7 +89,7 @@ Program createProgram(RenderingContext2 gl, Iterable<Shader> shaders,
 /// be derived from the type of the script tag.
 /// opt_errorCallback callback for errors.
 /// The created shader.
-Shader createShaderFromScript(RenderingContext2 gl, String scriptId,
+Shader createShaderFromScript(RenderingContext gl, String scriptId,
     {int opt_shaderType, opt_errorCallback}) {
   var shaderSource = '';
   var shaderType = opt_shaderType;
@@ -146,7 +146,7 @@ Program createProgramFromScripts(
 ///
 /// Creates a program from 2 sources.
 ///
-/// @param {WebGLRenderingContext} gl The WebGLRenderingContext to use.
+/// gl The WebGLRenderingContext to use.
 /// shaderSourcess Array of sources for the
 /// shaders. The first is assumed to be the vertex shader,
 /// the second the fragment shader.
