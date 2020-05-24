@@ -7,7 +7,6 @@ import 'dart:html';
 
 import 'dart:web_gl';
 
-
 ///
 /// Wrapped logging function.
 /// msg The message to log.
@@ -22,7 +21,8 @@ void error(String msg) {
 /// @param {number} shaderType The type of shader.
 /// @param {module:webgl-utils.ErrorCallback} opt_errorCallback callback for errors.
 /// @return {WebGLShader} The created shader.
-Shader loadShader(RenderingContext2 gl, String shaderSource, int shaderType, {void Function(String) opt_errorCallback}) {
+Shader loadShader(RenderingContext2 gl, String shaderSource, int shaderType,
+    {void Function(String) opt_errorCallback}) {
   final errFn = (opt_errorCallback == null) ? error : opt_errorCallback;
   // Create the shader object
   final shader = gl.createShader(shaderType);
@@ -38,7 +38,8 @@ Shader loadShader(RenderingContext2 gl, String shaderSource, int shaderType, {vo
   if (!compiled) {
     // Something went wrong during compilation; get the error
     final lastError = gl.getShaderInfoLog(shader);
-    errFn("*** Error compiling shader '" + shader.toString() + "':" + lastError);
+    errFn(
+        "*** Error compiling shader '" + shader.toString() + "':" + lastError);
     gl.deleteShader(shader);
     return null;
   }
@@ -53,19 +54,19 @@ Shader loadShader(RenderingContext2 gl, String shaderSource, int shaderType, {vo
 /// [opt_locations] The locations for the. A parallel array to opt_attribs letting you assign locations.
 /// opt_errorCallback callback for errors. By default it just prints an error to the console
 /// on error. If you want something else pass an callback. It's passed an error message.
-Program createProgram(
-    RenderingContext2 gl, Iterable<Shader> shaders, {List<String> opt_attribs, List<int> opt_locations, void Function(String) opt_errorCallback}) {
+Program createProgram(RenderingContext2 gl, Iterable<Shader> shaders,
+    {List<String> opt_attribs,
+    List<int> opt_locations,
+    void Function(String) opt_errorCallback}) {
   final errFn = (opt_errorCallback == null) ? error : opt_errorCallback;
   final program = gl.createProgram();
   shaders.forEach((shader) {
-  gl.attachShader(program, shader);
+    gl.attachShader(program, shader);
   });
   if (opt_attribs != null) {
     opt_attribs.asMap().forEach((ndx, attrib) {
-    gl.bindAttribLocation(
-    program,
-    opt_locations != null ? opt_locations[ndx] : ndx,
-    attrib);
+      gl.bindAttribLocation(
+          program, opt_locations != null ? opt_locations[ndx] : ndx, attrib);
     });
   }
   gl.linkProgram(program);
@@ -90,8 +91,8 @@ Program createProgram(
 /// be derived from the type of the script tag.
 /// opt_errorCallback callback for errors.
 /// The created shader.
-Shader createShaderFromScript(
-    RenderingContext2 gl, String scriptId, {int opt_shaderType, opt_errorCallback}) {
+Shader createShaderFromScript(RenderingContext2 gl, String scriptId,
+    {int opt_shaderType, opt_errorCallback}) {
   var shaderSource = '';
   var shaderType = opt_shaderType;
   final shaderScript = document.getElementById(scriptId) as ScriptElement;
@@ -105,13 +106,13 @@ Shader createShaderFromScript(
       shaderType = WebGL.VERTEX_SHADER;
     } else if (shaderScript.type == 'x-shader/x-fragment') {
       shaderType = WebGL.FRAGMENT_SHADER;
-    } else if (shaderType != WebGL.VERTEX_SHADER && shaderType != WebGL.FRAGMENT_SHADER) {
+    } else if (shaderType != WebGL.VERTEX_SHADER &&
+        shaderType != WebGL.FRAGMENT_SHADER) {
       throw '*** Error: unknown shader type';
     }
   }
 
-  return loadShader(
-      gl, shaderSource, shaderType,
+  return loadShader(gl, shaderSource, shaderType,
       opt_errorCallback: opt_errorCallback);
 }
 
@@ -119,7 +120,6 @@ const defaultShaderType = [
   'VERTEX_SHADER',
   'FRAGMENT_SHADER',
 ];
-
 
 /// Creates a program from 2 script tags.
 ///
@@ -135,10 +135,14 @@ Program createProgramFromScripts(
     gl, shaderScriptIds, opt_attribs, opt_locations, opt_errorCallback) {
   const shaders = <Shader>[];
   for (var ii = 0; ii < shaderScriptIds.length; ++ii) {
-    shaders.add(createShaderFromScript(
-        gl, shaderScriptIds[ii], opt_shaderType: gl[defaultShaderType[ii]], opt_errorCallback: opt_errorCallback));
+    shaders.add(createShaderFromScript(gl, shaderScriptIds[ii],
+        opt_shaderType: gl[defaultShaderType[ii]],
+        opt_errorCallback: opt_errorCallback));
   }
-  return createProgram(gl, shaders, opt_attribs: opt_attribs, opt_locations: opt_locations, opt_errorCallback: opt_errorCallback);
+  return createProgram(gl, shaders,
+      opt_attribs: opt_attribs,
+      opt_locations: opt_locations,
+      opt_errorCallback: opt_errorCallback);
 }
 
 ///
@@ -156,10 +160,13 @@ Program createProgramFromSources(
     gl, shaderSources, opt_attribs, opt_locations, opt_errorCallback) {
   const shaders = <Shader>[];
   for (var ii = 0; ii < shaderSources.length; ++ii) {
-    shaders.add(loadShader(
-        gl, shaderSources[ii], gl[defaultShaderType[ii]], opt_errorCallback: opt_errorCallback));
+    shaders.add(loadShader(gl, shaderSources[ii], gl[defaultShaderType[ii]],
+        opt_errorCallback: opt_errorCallback));
   }
-  return createProgram(gl, shaders, opt_attribs: opt_attribs, opt_locations: opt_locations, opt_errorCallback: opt_errorCallback);
+  return createProgram(gl, shaders,
+      opt_attribs: opt_attribs,
+      opt_locations: opt_locations,
+      opt_errorCallback: opt_errorCallback);
 }
 
 /// Resize a canvas to match the size its displayed.
@@ -167,10 +174,10 @@ Program createProgramFromSources(
 /// [multiplier] amount to multiply by.
 /// Pass in window.devicePixelRatio for native pixels.
 bool resizeCanvasToDisplaySize(CanvasElement canvas, {int multiplier = 1}) {
-  final width  = (canvas.clientWidth  * multiplier).floor();
+  final width = (canvas.clientWidth * multiplier).floor();
   final height = (canvas.clientHeight * multiplier.floor());
-  if (canvas.width != width ||  canvas.height != height) {
-    canvas.width  = width;
+  if (canvas.width != width || canvas.height != height) {
+    canvas.width = width;
     canvas.height = height;
     return true;
   }

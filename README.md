@@ -1,22 +1,9 @@
-A library for Dart developers.
+# webgl_fundamentals_utils
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
-
-## Usage
-
-A simple usage example:
-
-```dart
-import 'package:dart_webgl_utils/dart_webgl_utils.dart';
-
-main() {
-  var awesome = new Awesome();
-}
-```
+Set of utilities for webgl based on Gregg Tavares webgl-utils.js for the WebGL Fundamentals tutorials.
 
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://example.com/issues/replaceme
+[tracker]: https://github.com/ALMaclaine/dart_webgl_fundamentals_utils/issues
