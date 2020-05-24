@@ -21,7 +21,7 @@ void error(String msg) {
 /// opt_errorCallback callback for errors.
 Shader loadShader(RenderingContext gl, String shaderSource, int shaderType,
     {void Function(String) opt_errorCallback}) {
-  final errFn = (opt_errorCallback == null) ? error : opt_errorCallback;
+  final errFn = opt_errorCallback ?? error;
   // Create the shader object
   final shader = gl.createShader(shaderType);
 
@@ -56,7 +56,7 @@ Program createProgram(RenderingContext gl, Iterable<Shader> shaders,
     {List<String> opt_attribs,
     List<int> opt_locations,
     void Function(String) opt_errorCallback}) {
-  final errFn = (opt_errorCallback == null) ? error : opt_errorCallback;
+  final errFn = opt_errorCallback ?? error;
   final program = gl.createProgram();
   shaders.forEach((shader) {
     gl.attachShader(program, shader);
@@ -90,7 +90,7 @@ Program createProgram(RenderingContext gl, Iterable<Shader> shaders,
 /// opt_errorCallback callback for errors.
 /// The created shader.
 Shader createShaderFromScript(RenderingContext gl, String scriptId,
-    {int opt_shaderType, opt_errorCallback}) {
+    {int opt_shaderType, void Function(String) opt_errorCallback}) {
   var shaderSource = '';
   var shaderType = opt_shaderType;
   final shaderScript = document.getElementById(scriptId) as ScriptElement;
@@ -114,10 +114,7 @@ Shader createShaderFromScript(RenderingContext gl, String scriptId,
       opt_errorCallback: opt_errorCallback);
 }
 
-const defaultShaderType = [
-  'VERTEX_SHADER',
-  'FRAGMENT_SHADER',
-];
+const defaultShaderType = <int>[WebGL.VERTEX_SHADER, WebGL.FRAGMENT_SHADER];
 
 /// Creates a program from 2 script tags.
 ///
@@ -130,11 +127,14 @@ const defaultShaderType = [
 /// opt_errorCallback callback for errors. By default it just prints an error to the console
 /// on error. If you want something else pass an callback. It's passed an error message.
 Program createProgramFromScripts(
-    gl, shaderScriptIds, opt_attribs, opt_locations, opt_errorCallback) {
+    RenderingContext gl, List<String> shaderScriptIds,
+    {List<String> opt_attribs,
+    List<int> opt_locations,
+    void Function(String) opt_errorCallback}) {
   const shaders = <Shader>[];
   for (var ii = 0; ii < shaderScriptIds.length; ++ii) {
     shaders.add(createShaderFromScript(gl, shaderScriptIds[ii],
-        opt_shaderType: gl[defaultShaderType[ii]],
+        opt_shaderType: defaultShaderType[ii],
         opt_errorCallback: opt_errorCallback));
   }
   return createProgram(gl, shaders,
@@ -155,10 +155,13 @@ Program createProgramFromScripts(
 /// opt_errorCallback callback for errors. By default it just prints an error to the console
 /// on error. If you want something else pass an callback. It's passed an error message.
 Program createProgramFromSources(
-    gl, shaderSources, opt_attribs, opt_locations, opt_errorCallback) {
+    RenderingContext gl, List<String> shaderSources,
+    {List<String> opt_attribs,
+    List<int> opt_locations,
+    void Function(String) opt_errorCallback}) {
   const shaders = <Shader>[];
   for (var ii = 0; ii < shaderSources.length; ++ii) {
-    shaders.add(loadShader(gl, shaderSources[ii], gl[defaultShaderType[ii]],
+    shaders.add(loadShader(gl, shaderSources[ii], defaultShaderType[ii],
         opt_errorCallback: opt_errorCallback));
   }
   return createProgram(gl, shaders,
