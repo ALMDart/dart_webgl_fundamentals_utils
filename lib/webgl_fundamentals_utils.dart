@@ -14,13 +14,11 @@ void error(String msg) {
   window.console.error(msg);
 }
 
-///
 /// Loads a shader.
 /// gl The WebGLRenderingContext to use.
 /// shaderSource The shader source.
-/// @param {number} shaderType The type of shader.
-/// @param {module:webgl-utils.ErrorCallback} opt_errorCallback callback for errors.
-/// @return {WebGLShader} The created shader.
+/// shaderType The type of shader.
+/// opt_errorCallback callback for errors.
 Shader loadShader(RenderingContext2 gl, String shaderSource, int shaderType,
     {void Function(String) opt_errorCallback}) {
   final errFn = (opt_errorCallback == null) ? error : opt_errorCallback;
