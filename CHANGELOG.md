@@ -1,3 +1,7 @@
+## 0.1.0+4
+
+- Finish adding types to parameters, make some parameters optional
+
 ## 0.1.0+3
 
 - Switch RenderingContext2 to RenderingContext
