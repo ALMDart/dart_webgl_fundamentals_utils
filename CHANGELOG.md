@@ -2,7 +2,7 @@
 
 - Update License
 
-## 0.1.0+4
+## 0.1.0
 
 - Finish adding types to parameters, make some parameters optional
 
