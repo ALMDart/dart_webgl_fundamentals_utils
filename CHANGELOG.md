@@ -1,3 +1,7 @@
+## 0.1.0+7
+
+- Delete library directive.
+
 ## 0.1.0+6
 
 - Change Shader arrays from const to final

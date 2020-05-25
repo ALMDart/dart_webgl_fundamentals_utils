@@ -1,8 +1,3 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
-library dart_webgl_utils;
-
 import 'dart:html';
 
 import 'dart:web_gl';
